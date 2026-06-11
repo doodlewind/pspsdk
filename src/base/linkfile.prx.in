@@ -83,7 +83,7 @@ SECTIONS
     KEEP (*(.fini))
   } =0
   /* PSP library stub functions. */
-  .sceStub.text     : { *(.sceStub.text) *(SORT(.sceStub.text.*)) }
+  .sceStub.text     : { KEEP(*(.sceStub.text)) KEEP(*(SORT(.sceStub.text.*))) }
   PROVIDE (__etext = .);
   PROVIDE (_etext = .);
   PROVIDE (etext = .);
