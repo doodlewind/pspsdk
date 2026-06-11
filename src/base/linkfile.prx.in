@@ -98,7 +98,7 @@ SECTIONS
      .rodata.sceModuleInfo section must appear before the .rodata section
      otherwise it would get absorbed into .rodata and the PSP bootloader
      would be unable to locate the module info structure. */
-  .rodata.sceModuleInfo    : { *(.rodata.sceModuleInfo) }
+  .rodata.sceModuleInfo    : { KEEP (*(.rodata.sceModuleInfo)) }
   .rodata.sceResident      : { *(.rodata.sceResident) }
   .rodata.sceNid           : { KEEP (*(.rodata.sceNid)) }
   .rodata.sceVstub         : { *(.rodata.sceVstub) *(SORT(.rodata.sceVstub.*)) }
