@@ -19,6 +19,7 @@ CXX      = psp-g++
 AS       = psp-gcc
 LD       = psp-gcc
 FIXUP    = psp-fixup-imports
+ENC		 = PrxEncrypter
 
 # Add PSPSDK includes and libraries.
 INCDIR   := $(INCDIR) . $(PSPDEV)/psp/include $(PSPSDK)/include
@@ -56,6 +57,11 @@ endif
 
 %.prx: %.elf
 	psp-prxgen $< $@
+ifeq ($(ENCRYPT), 1)
+	- $(ENC) $@ $@
+else ifeq ($(ENCRYPT), 2)
+	- $(ENC) --pspemu-pboot $@ $@
+endif
 
 %.c: %.exp
 	psp-build-exports -b $< > $@
