@@ -65,12 +65,14 @@ static const char *g_title = NULL;
 static const char *g_filename = NULL;
 static int g_empty = 0;
 static struct EntryContainer g_vals[MAX_OPTIONS];
+static int g_pboot_set = 0;
 
 static struct option arg_opts[] = 
 {
 	{"dword", required_argument, NULL, 'd'},
 	{"string", required_argument, NULL, 's'},
 	{"empty", no_argument, NULL, 'e'},
+	{"pboot", no_argument, NULL, 'p'},
 	{ NULL, 0, NULL, 0 }
 };
 
@@ -165,13 +167,11 @@ int add_dword(char *str)
 /* Process the arguments */
 int process_args(int argc, char **argv)
 {
-	int ch;
-
 	g_title = NULL;
 	g_filename = NULL;
 	g_empty = 0;
 
-	ch = getopt_long(argc, argv, "ed:s:", arg_opts, NULL);
+	int ch = getopt_long(argc, argv, "ped:s:", arg_opts, NULL);
 	while(ch != -1)
 	{
 		switch(ch)
@@ -185,10 +185,13 @@ int process_args(int argc, char **argv)
 					   {
 					   }
 				break;
+			case 'p' :
+				g_pboot_set = 1;
+				break;
 			default  : break;
 		};
 
-		ch = getopt_long(argc, argv, "ed:s:", arg_opts, NULL);
+		ch = getopt_long(argc, argv, "ped:s:", arg_opts, NULL);
 	}
 
 	argc -= optind;
@@ -235,8 +238,9 @@ int main(int argc, char **argv)
 	{
 		fprintf(stderr, "Usage: mksfoex [options] TITLE output.sfo\n");
 		fprintf(stderr, "Options:\n");
-		fprintf(stderr, "-d NAME=VALUE - Add a new DWORD value\n");
-		fprintf(stderr, "-s NAME=STR   - Add a new string value\n");
+		fprintf(stderr, "-d, --dword  NAME=VALUE - Add a new DWORD value\n");
+		fprintf(stderr, "-s, --string NAME=STR   - Add a new string value\n");
+		fprintf(stderr, "-p, --pboot             - Produce a PBOOT SFO\n");
 
 		return 1;
 	}
@@ -259,13 +263,23 @@ int main(int argc, char **argv)
 			}
 		}
 
-		if(!find_name("TITLE"))
-		{
-			entry = find_free();
-			entry->name = "TITLE";
-			entry->type = PSF_TYPE_STR;
-			entry->value = 0;
-			entry->data = g_title;
+		if (g_pboot_set) {
+			if(!find_name("PBOOT_TITLE")) {
+				entry = find_free();
+				entry->name = "PBOOT_TITLE";
+				entry->type = PSF_TYPE_STR;
+				entry->value = 0;
+				entry->data = g_title;
+			}
+		} else {
+			if(!find_name("TITLE"))
+			{
+				entry = find_free();
+				entry->name = "TITLE";
+				entry->type = PSF_TYPE_STR;
+				entry->value = 0;
+				entry->data = g_title;
+			}
 		}
 	}
 
