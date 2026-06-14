@@ -127,6 +127,7 @@ endif
 ifndef PSP_PRODUCE_PBOOT
 ifeq ($(ENCRYPT), 2)
 PSP_PRODUCE_PBOOT = 1
+
 endif
 endif
 
@@ -140,6 +141,10 @@ endif
 
 ifeq ($(PSP_PRODUCE_PBOOT), 1)
 SFOFLAGS := -p $(SFOFLAGS)
+endif
+
+ifeq ($(ENCRYPT), 2)
+SFOFLAGS := -d USE_USB=1 $(SFOFLAGS)
 endif
 
 ifeq ($(BUILD_PRX),1)
