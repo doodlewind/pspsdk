@@ -271,15 +271,15 @@ int main(int argc, char **argv)
 				entry->value = 0;
 				entry->data = g_title;
 			}
-		} else {
-			if(!find_name("TITLE"))
-			{
-				entry = find_free();
-				entry->name = "TITLE";
-				entry->type = PSF_TYPE_STR;
-				entry->value = 0;
-				entry->data = g_title;
-			}
+		}
+
+		if(!find_name("TITLE"))
+		{
+			entry = find_free();
+			entry->name = "TITLE";
+			entry->type = PSF_TYPE_STR;
+			entry->value = 0;
+			entry->data = g_title;
 		}
 	}
 
