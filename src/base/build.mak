@@ -127,7 +127,6 @@ endif
 ifndef PSP_PRODUCE_PBOOT
 ifeq ($(ENCRYPT), 2)
 PSP_PRODUCE_PBOOT = 1
-
 endif
 endif
 
