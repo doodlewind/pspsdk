@@ -124,8 +124,26 @@ ifndef PSP_EBOOT_PSAR
 PSP_EBOOT_PSAR = NULL
 endif
 
+ifndef PSP_PRODUCE_PBOOT
+ifeq ($(ENCRYPT), 2)
+PSP_PRODUCE_PBOOT = 1
+endif
+endif
+
 ifndef PSP_EBOOT
+ifeq ($(PSP_PRODUCE_PBOOT), 1)
+PSP_EBOOT = PBOOT.PBP
+else
 PSP_EBOOT = EBOOT.PBP
+endif
+endif
+
+ifeq ($(PSP_PRODUCE_PBOOT), 1)
+SFOFLAGS := -p $(SFOFLAGS)
+endif
+
+ifeq ($(ENCRYPT), 2)
+SFOFLAGS := -d USE_USB=1 $(SFOFLAGS)
 endif
 
 ifeq ($(BUILD_PRX),1)
@@ -180,6 +198,8 @@ ifeq ($(BUILD_PRX),1)
 $(PSP_EBOOT): $(TARGET).prx $(PSP_EBOOT_SFO)
 ifeq ($(ENCRYPT), 1)
 	- $(ENC) $(TARGET).prx $(TARGET).prx
+else ifeq ($(ENCRYPT), 2)
+	- $(ENC) --pspemu-pboot $(TARGET).prx $(TARGET).prx
 endif
 	$(PACK_PBP) $(PSP_EBOOT) $(PSP_EBOOT_SFO) $(PSP_EBOOT_ICON)  \
 		$(PSP_EBOOT_ICON1) $(PSP_EBOOT_PIC0) $(PSP_EBOOT_PIC1)  \
