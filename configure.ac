@@ -76,7 +76,7 @@ AC_SUBST(PSPSDK_LIBDIR)
 # CFLAGS and CXXFLAGS used to build pspsdk libraries.
 PSPSDK_ABI_CFLAGS=""
 if test "x$enable_abicalls" = xno ; then
-	PSPSDK_ABI_CFLAGS="-mno-abicalls -fno-pic -G0"
+	PSPSDK_ABI_CFLAGS="-mabi=32 -mno-abicalls -fno-pic -G0"
 fi
 PSPSDK_CFLAGS="$CFLAGS $PSPSDK_ABI_CFLAGS -mno-gpopt -Wall -Werror -D_PSP_FW_VERSION=600"
 if test "$with_gprofflags" = yes ; then
