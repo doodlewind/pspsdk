@@ -24,11 +24,6 @@ find_llvm_tool()
         return 0
     fi
 
-    if command -v "$tool" >/dev/null 2>&1; then
-        command -v "$tool"
-        return 0
-    fi
-
     if command -v brew >/dev/null 2>&1; then
         local brew_llvm
         brew_llvm="$(brew --prefix llvm 2>/dev/null || true)"
@@ -36,6 +31,11 @@ find_llvm_tool()
             printf '%s\n' "$brew_llvm/bin/$tool"
             return 0
         fi
+    fi
+
+    if command -v "$tool" >/dev/null 2>&1; then
+        command -v "$tool"
+        return 0
     fi
 
     echo "ERROR: Could not find $tool. Install LLVM or set PSPSDK_LLVM_BINDIR." >&2
