@@ -33,7 +33,7 @@ AC_CHECK_LIB([z], [compress])
 AC_C_CONST
 AC_C_BIGENDIAN
 
-AC_ARG_WITH(gprofflags,  [ --with-gprofflags  build with gprof flag included], [], [--with_gprofflags=no])
+AC_ARG_WITH(gprofflags,  [ --with-gprofflags  build with gprof flag included], [], [with_gprofflags=no])
 AC_ARG_WITH(pthread,  [ --with-pthread  build with pthread support], [], [with_pthread=yes])
 AC_ARG_ENABLE(abicalls, AS_HELP_STRING([--enable-abicalls], [build PSP target objects with ABI calls/PIC]), [], [enable_abicalls=no])
 

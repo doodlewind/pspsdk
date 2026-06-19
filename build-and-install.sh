@@ -48,8 +48,8 @@ cp tools/PrxEncrypter/LICENSE $PSPDEV/share/licenses/PrxEncrypter
 if [ -d .git ]; then
   BUILD_FILE="${PSPDEV}/build.txt"
   if [[ -f "${BUILD_FILE}" ]]; then
-    sed -i'' '/^pspsdk /d' "${BUILD_FILE}"
+    sed -i.bak '/^pspsdk /d' "${BUILD_FILE}"
+    rm -f "${BUILD_FILE}.bak"
   fi
   git log -1 --format="pspsdk %H %cs %s" >> "${BUILD_FILE}"
 fi
-
